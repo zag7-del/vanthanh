@@ -77,7 +77,6 @@ def tLx6cpsx():
         if response.status_code == 200:
             return response.json()['hydra:member']
         else:
-            pass
             return None
     except Exception as e:
         print(f'{vua}{do}[×] Error: {e}')
@@ -102,7 +101,6 @@ def f9kSLNSXl():
                 print(f'{vua}{xanh_la}[√] Email Created: {username}@{domain}')
                 return (f'{username}@{domain}', password, first_name, last_name, birthday)
             else:
-                pass
                 return None, None, None, None, None
         except Exception as e:
             print(f'{vua}{do}[×] Error: {e}')
@@ -110,9 +108,6 @@ def f9kSLNSXl():
     return None, None, None, None, None
 
 def get_cookie(email, password, token=None):
-    """
-    Hàm fix: Tránh garbled, retry, dùng token nếu có.
-    """
     session = requests.Session()
     
     user_agents = [
@@ -129,7 +124,7 @@ def get_cookie(email, password, token=None):
             'User-Agent': ua,
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
             'Accept-Language': 'en-US,en;q=0.5',
-            'Accept-Encoding': 'identity',  # Tránh garbled
+            'Accept-Encoding': 'identity',
             'DNT': '1',
             'Connection': 'keep-alive',
             'Upgrade-Insecure-Requests': '1',
@@ -227,10 +222,9 @@ def get_cookie(email, password, token=None):
             else:
                 print(f'{vua}{do}[×] Post fail (status: {post_response.status_code}). Retry {retry+1}/{max_retries}')
                 time.sleep(5)
-        
         except Exception as e:
             print(f'{vua}{do}[×] Lỗi retry {retry+1}: {e}')
-            continue  # Tiếp tục retry thay vì return ngay
+            continue  # Đóng try-except đúng indent
     
     print(f'{vua}{do}[×] Tất cả retry fail cho {email}. Thử proxy hoặc login thủ công.')
     return None
@@ -269,7 +263,7 @@ def QuanHau(email, password, first_name, last_name, birthday):
 
     if response.status_code == 200:
         reg = response.json()
-        id_ = reg.get('new_user_id')  # Đổi id thành id_ vì id là built-in
+        id_ = reg.get('new_user_id')
         token = reg.get('session_info', {}).get('access_token')
         print(
             f"""{vua}{xanh_la}[+] Email: {email}
@@ -283,7 +277,6 @@ def QuanHau(email, password, first_name, last_name, birthday):
         cookie = get_cookie(email, password, token)
         if cookie:
             print(f'{vua}{xanh_la}[√] Cookie lưu cho: {email}')
-            # Lưu file
             safe_email = email.replace('@', '_').replace('.', '_')
             with open(f'cookie_{safe_email}.txt', 'w') as f:
                 f.write(cookie)
